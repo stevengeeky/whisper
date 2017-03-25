@@ -1,0 +1,262 @@
+<!doctype html>
+<html>
+    <head>
+        <title>~~whisper a.3</title>
+    </head>
+    <script>
+        (function(){
+        let timetime = () => new Date().getTime();
+        let KEYS = [];
+        let CHRS = "`1234567890-=~!@#$%^&*()_+qwertyuiop[]\\QWERTYUIOP{}|asdfghjkl;'ASDFGHJKL:\"zxcvbnm ,./ZXCVBNM<>?";
+        let grab = (id) => document.getElementById(id);
+        let D = [], ll = 0;
+        window.onload = () => {
+            grab("juice").onchange = new_juice;
+            grab("p").onkeydown = kd;
+            boxup();
+        };
+        let new_juice = () => {
+            let f = new FileReader();
+            f.onload = () => {
+                KEYS = f.result.split("\n");
+            };
+            f.readAsText(grab("juice").files[0]);
+        };
+        let kd = (e) => {
+            if (e.keyCode == 13 && !e.shiftKey) {
+                e.preventDefault();
+                
+                let t = grab("p");
+                
+                sweeten(t.value, 20);
+                t.value = "";
+            }
+        };
+        let an = (h, c) => {
+            let main = grab("main");
+            let height = Math.floor(main.getBoundingClientRect().height);
+            let atbottom = false;
+            if (main.scrollHeight - main.scrollTop >= height)
+                atbottom = true;
+            
+            let d = document.createElement("div");
+            let ch = document.createElement("div");
+            ch.className = c ? "blue" : "gray";
+            d.className = c ? "blue_cont" : "gray_cont";
+            ch.innerHTML = h;
+            
+            d.appendChild(ch);
+            main.appendChild(d);
+            
+            if (atbottom)
+                main.scrollTop = main.scrollHeight;
+        };
+        let show = (m) => {
+            let lines = m.split("\n");
+            let nll = lines.length;
+            if (ll < lines.length) {
+                for (let i = ll; i < lines.length; i++) {
+                    let line = lines[i];
+                    if (line.replace(/ |\t/g, "") == "") {
+                        --nll;
+                        continue
+                    }
+                    let p = tdc(line);
+                    let m = false;
+                    let d = dt(p);
+                    let v = tdc(p);
+                    
+                    if (v.replace(/ |\t/g, "") != "") {
+                        if (D.indexOf(d) != -1)
+                            m = true;
+                        an(encode(v), m);
+                    }
+                }
+                ll = nll;
+            }
+        };
+        let sweeten = (m, r, sk) => {
+            if (typeof sk == "undefined") {
+                if (typeof r != "undefined") {
+                    let C = tec(m);
+                    for (let i = 0; i < r; i++)
+                        sweeten(m, undefined, C);
+                    return;
+                }
+            }
+            let c = sk || tec(m);
+            let _d = dt(c);
+            
+            if (D.indexOf(_d) == -1)
+                D.push(_d);
+            
+            setTimeout(function(){
+                let x = new XMLHttpRequest();
+                x.open('POST', '/scripts/' + rfn('s'), true);
+                x.send(c);
+            }, 500);
+        };
+        let boxup = () => {
+            let x = new XMLHttpRequest();
+            x.open('GET', '/images/' + rfn('i'), true);
+            x.send();
+            
+            x.onreadystatechange = function() {
+                if (x.readyState == 4) {
+                    W = false;
+                    try {
+                        show(x.responseText);
+                    }
+                    catch (e) {
+                        console.warn("[Warning] Trouble parsing data. Have you loaded your keys yet? Checking again in five seconds...");
+                        W = true;
+                    }
+                    
+                    if (W)
+                        setTimeout(boxup, 5000);
+                    else
+                        boxup();
+                }
+            };
+        };
+        let tec = (m) => {
+            let ts = timetime() + "";
+            while (ts.length < 14)
+                ts = "0" + ts;
+            let k = KEYS[KEYS.length - 1], s = grab("sweet").value;
+            let T = ec(ts, k, s);
+            return T + ec(m, KEYS[(+ts) % KEYS.length], s);
+        };
+        let tdc = (m) => {
+            let k = KEYS[KEYS.length - 1], s = grab("sweet").value;
+            let t = +dc(m.substring(0, 14), k, s);
+            return dc(m.substring(14), KEYS[t % KEYS.length], s);
+        };
+        let dt = (m) => {
+            return dc(m.substring(0, 14), KEYS[KEYS.length - 1], grab("sweet").value);
+        };
+        let ec = (m, k, s) => {
+            let r = "";
+            if (m == "")
+                return "";
+            for (let i = 0; i < m.length; i++) {
+                r += c(o(m.charAt(i)) + o(k.charAt(i % k.length)) - (typeof s != "undefined" && s.length > 0 ? o(s.charAt(i % s.length)) : 0));
+            }
+            return r;
+        };
+        let dc = (m, k, s) => {
+            let r = "";
+            if (m == "")
+                return "";
+            
+            for (let i = 0; i < m.length; i++)
+                r += c(o(m.charAt(i)) - o(k.charAt(i % k.length)) + (typeof s != "undefined" && s.length > 0 ? o(s.charAt(i % s.length)) : 0));
+            return r;
+        };
+        let rfn = (t) => {
+            let es = t == 'i' ? ['jpg', 'png'] : ['js'];
+            let e = es[Math.floor(Math.random() * es.length)];
+            let f = '', a = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+            let l = Math.floor(Math.random() * 20) + 4;
+            
+            for (let i = 0; i < l; i++)
+                f += a.charAt(Math.floor(Math.random() * a.length));
+            return f + "." + e;
+        };
+        let encode = (s) => {
+            let r = "";
+            for (let i = 0; i < s.length; i++)
+                r += "&#" + s.charCodeAt(i) + ";"
+            return r;
+        };
+        let decode = (s) => {
+            let r = s.replace(/&#[0-9]+;/g, (m) => String.fromCharCode(+m.substring(2, m.length - 1)));
+            return r;
+        };
+        let o = (v) => CHRS.indexOf(v);
+        let c = (v) => CHRS.charAt(unmod(v, CHRS.length));
+        let unmod = (v, l) => v >= 0 ? v % l : l - ((-v) % l);
+        })();
+    </script>
+    <style>
+        * {
+            margin:0;
+            padding:0;
+            font:10pt "Courier New";
+        }
+        input {
+            padding:2pt;
+        }
+        body {
+            overflow:hidden;
+        }
+        .left {
+            width:20vw;
+            height:100vh;
+            overflow:hidden;
+            position:fixed;
+            left:0;
+            top:0;
+        }
+        .left input {
+            width:16vw;
+        }
+        .main {
+            width:80vw;
+            height:90vh;
+            position:fixed;
+            left:20vw;
+            top:0;
+            overflow:auto;
+        }
+        .overlay {
+            position:fixed;
+            width:80vw;
+            height:10vh;
+            left:20vw;
+            top:90vh;
+        }
+        .ov_input {
+            display:inline-block;
+            width:80vw;
+            height:10vh;
+            resize:none;
+            padding:3pt;
+        }
+        .blue {
+            display:inline-block;
+            padding:3pt;
+            border-radius:4pt;
+            font-size:13pt;
+        }
+        .blue_cont {
+            text-align:right;
+            padding:4pt;
+            background-color:#eff;
+        }
+        .gray {
+            display:inline-block;
+            padding:3pt;
+            border-radius:4pt;
+            font-size:13pt;
+        }
+        .gray_cont {
+            padding:4pt;
+            background-color:#eee;
+        }
+    </style>
+    <body>
+        <div class="left">
+            <div style="padding:2pt">
+                List: <input id="juice" type="file" files /><br /><br />
+                Sanitization: <input type="password" id="sweet" /><br /><br />
+            </div>
+        </div>
+        <div class="main" id="main">
+            
+        </div>
+        <div class="overlay">
+            <textarea class="ov_input" id="p"></textarea>
+        </div>
+    </body>
+</html>
