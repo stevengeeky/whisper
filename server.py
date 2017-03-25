@@ -102,7 +102,7 @@ def request(conn, method, url, data):
     
     if method == 'get':
         if first_dir == 'css':
-            message = get_file(os.path.abspath('index.html'))
+            message = get_file(os.path.abspath('visual/index.html'))
             if message != None:
                 head = header({ 'content': message })
                 
