@@ -2,9 +2,9 @@
 
 Whisper is a one-time-pad based crypto-chat that allows two nodes to anonymously communicate with each other on a network.
 
-## Legal Disclaimer
+<!--## Legal Disclaimer
 
-**It is the end user's responsibility to obey all local, state, and federal laws. The developer assumes no liability for any misuse or damages caused by this software.**
+**It is the end user's responsibility to obey all local, state, and federal laws. The developer assumes no liability for any misuse or damages caused by this software.**-->
 
 ## Usage
 
