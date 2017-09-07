@@ -38,7 +38,7 @@ Whisper is a one-time-pad based crypto-chat that allows two nodes to anonymously
 
 > Whisper was created using python 2.7.10
 
-Before whisper can be used for remote communication, the two clients in question will first need to agree upon a large set of K keys, each of length L, where L is larger thant the largest message which will ever be exchanged.
+Before whisper can be used for remote communication, the two clients in question will first need to agree upon a large set of K keys, each of length L, where L is larger than the largest message which will ever be exchanged.
 
 Generating a set of such keys can be done simply by typing:
 
